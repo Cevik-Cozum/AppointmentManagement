@@ -1,54 +1,55 @@
 package com.cevikcozum.appointment.entities;
 
-
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name = "doktor")
+@Table(name = "address")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Doktor {
+public class Adres {
+
+
 
     @Id
-    @Column(name = "doctor_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore // İD ALANINI GÖSTERMEZ JSON FORMATINDA
-    private int id;
+    @Column(name = "addressid")
+    private Long addressid;
 
     @Column(name = "name")
-    private String doktorName;
+    private String addressName; 
 
- 
-    // @ManyToOne
-    // @JoinColumn(name = "hospital_id")
-    // private Hastane hastane;
-    @ManyToOne
-    @JoinColumn(name = "hospital_id")
-    private Hastane hastane;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Departman departman;
-
+        
     @JsonIgnore
     @OneToMany
-    @JoinColumn(name = "doctor_id")
-    private Set<OnlineDoktor> onlineDoktors;
+    @JoinColumn(name = "addressid")
+    private Set<Hastane> hospitals;
 
+    
+
+
+    
 }

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import com.cevikcozum.appointment.entities.Departman;
 import com.cevikcozum.appointment.entities.Hastane;
 import com.cevikcozum.appointment.model.HospitalViewModel;
+import com.cevikcozum.appointment.repositories.AdresRepository;
 import com.cevikcozum.appointment.repositories.DepartmanRepository;
 import com.cevikcozum.appointment.repositories.HastaneRepository;
 
@@ -19,8 +20,11 @@ public class HastaneService {
     @Autowired
     DepartmanRepository departmanRepository;
 
+    @Autowired
+    AdresRepository adresRepository;
   
     public HastaneService(){}
+
 
     public List<Hastane> getHastane(){
         return hastaneRepository.findAll();
@@ -46,12 +50,12 @@ public class HastaneService {
             if(ddeparts.getId()>0){
                 ddeparts=departmanRepository.findById(ddeparts.getId());
             }
-            ddeparts.addHospital(hastane);
+            ddeparts.addHastane(hastane);
             return ddeparts;
         })
         .collect(Collectors.toSet()));
         return hastaneRepository.save(hastane);
     }
 
-    
+
 }

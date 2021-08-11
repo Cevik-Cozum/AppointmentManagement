@@ -34,6 +34,10 @@ public class Departman {
     @Column(name = "name")
     private String departmanName;
 
+    // @ManyToMany(mappedBy = "departs")
+    // @JsonIgnore
+    // private Set<Hastane> hospitals = new HashSet<>();
+    
     @ManyToMany(mappedBy = "departs")
     @JsonIgnore
     private Set<Hastane> hospitals = new HashSet<>();
@@ -43,8 +47,8 @@ public class Departman {
     @JoinColumn(name = "department_id")
     private Set<Doktor> doktors;
 
-    public void addHospital(Hastane hastane) {
-        this.hospitals.add(hastane);
+    public void addHastane(Hastane hospital) {
+        this.hospitals.add(hospital);
     }
 
 
