@@ -34,9 +34,6 @@ public class Departman {
     @Column(name = "name")
     private String departmanName;
 
-    // @ManyToMany(mappedBy = "departs")
-    // @JsonIgnore
-    // private Set<Hastane> hospitals = new HashSet<>();
     
     @ManyToMany(mappedBy = "departs")
     @JsonIgnore

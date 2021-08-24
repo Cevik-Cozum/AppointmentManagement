@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -40,16 +41,10 @@ public class Hastane {
     private String hospitalName; 
 
     
-
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressid")
-    public Adres addressid;
+    private Adres addressid;
 
-    
-    // @Column(name = "addressid")
-    // private int addressid;
-   
 
     @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "hastane_departman",
@@ -63,6 +58,7 @@ public class Hastane {
     @JoinColumn(name = "hospital_id")
     private Set<Doktor> doktors;
     
+   
 
     
 }

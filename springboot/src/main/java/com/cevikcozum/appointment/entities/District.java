@@ -1,8 +1,7 @@
 package com.cevikcozum.appointment.entities;
 
-
 import java.util.Set;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,41 +12,41 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Entity(name = "doktor")
-@Table(name = "doktor")
+@Entity
+@Table(name = "district")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Doktor {
+public class District {
+
+
 
     @Id
-    @Column(name = "doctor_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "districtid")
+    private int districtid;
 
     @Column(name = "name")
-    private String doktorName;
+    private String districtName; 
 
- 
-    // @ManyToOne
-    // @JoinColumn(name = "hospital_id")
-    // private Hastane hastane;
-    @ManyToOne
-    @JoinColumn(name = "hospital_id")
-    private Hastane hastane;
+   
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cityid")
+    private City cityid;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Departman departman;
 
     @JsonIgnore
     @OneToMany
-    @JoinColumn(name = "doctor_id")
-    private Set<OnlineDoktor> onlineDoktors;
+    @JoinColumn(name = "neighborhoodid")
+    private Set<Neighborhood> neighborhoods;
 
+
+
+    
 }

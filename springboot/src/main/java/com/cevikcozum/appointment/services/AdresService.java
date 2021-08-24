@@ -1,14 +1,8 @@
 package com.cevikcozum.appointment.services;
 
-import java.util.stream.Collectors;
 
 import com.cevikcozum.appointment.entities.Adres;
-import com.cevikcozum.appointment.entities.Departman;
-import com.cevikcozum.appointment.entities.Hastane;
-import com.cevikcozum.appointment.model.HospitalViewModel;
 import com.cevikcozum.appointment.repositories.AdresRepository;
-import com.cevikcozum.appointment.repositories.DepartmanRepository;
-import com.cevikcozum.appointment.repositories.HastaneRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

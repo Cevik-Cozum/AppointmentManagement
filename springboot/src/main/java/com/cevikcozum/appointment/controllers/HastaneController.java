@@ -1,22 +1,19 @@
 package com.cevikcozum.appointment.controllers;
 
-import java.io.Console;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.persistence.criteria.CriteriaBuilder.In;
 
 import com.cevikcozum.appointment.entities.Adres;
+import com.cevikcozum.appointment.entities.District;
 import com.cevikcozum.appointment.entities.Hastane;
-import com.cevikcozum.appointment.model.HospitalViewModel;
+import com.cevikcozum.appointment.entities.Neighborhood;
 import com.cevikcozum.appointment.repositories.AdresRepository;
+import com.cevikcozum.appointment.repositories.DistrictRepository;
 import com.cevikcozum.appointment.repositories.HastaneRepository;
+import com.cevikcozum.appointment.repositories.NeighborhoodRepository;
 import com.cevikcozum.appointment.services.HastaneService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +36,11 @@ public class HastaneController {
     @Autowired
     AdresRepository adresRepository;
 
+    @Autowired
+    NeighborhoodRepository neighborhoodRepository;
+    
+    @Autowired
+    DistrictRepository districtRepository;
     // @PostMapping("addhastane")
     // public Hastane addHastane(@RequestBody HospitalViewModel hospitalViewModel){
     // return hastaneService.addHastaneWithDepartman(hospitalViewModel);
@@ -60,7 +62,16 @@ public class HastaneController {
     // }
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteHospital(@PathVariable Integer id) {
+        Hastane hastane=hastaneRepository.getById(id);
+        hastane.setAddressid(null);
         hastaneRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("deleteAdres/{addressid}")
+    public ResponseEntity<?> deleteHospital2(@PathVariable int addressid) {
+        Adres adres=adresRepository.getById(addressid);
+        adres.setNeighborhoodid(null);
+        adresRepository.deleteById(addressid);
         return ResponseEntity.ok().build();
     }
     // @PutMapping("update")
@@ -72,17 +83,32 @@ public class HastaneController {
     @PutMapping("update/{id}")
     public ResponseEntity<Hastane> updateEmployee(@PathVariable int id,@RequestBody Hastane hastane){
         Hastane result =hastaneRepository.getById(id);
-
+        // Adres adresResult=adresRepository.getById(addressid);
+        // adresResult.setAddressName(adresResult.getAddressName());
+        // result.setAddressid(adresResult);
         result.setId(id);
         result.setHospitalName(hastane.getHospitalName());
         final Hastane updatedHastane= hastaneRepository.save(result);
         return ResponseEntity.ok(updatedHastane);
     }
-
-    @PostMapping("create")
-    public void createHospital(@Validated @RequestBody Hastane hastane) {
+    @PutMapping("updateAdres/{addressid}")
+    public ResponseEntity<Adres> updateEmployee(@RequestBody Adres adres,@PathVariable int addressid){
+        Adres adresResult=adresRepository.getById(addressid);
+        adresResult.setAddressName(adres.getAddressName());
+        adresResult.setAddressid(addressid);
+        final Adres updatedHastane= adresRepository.save(adresResult);
+        return ResponseEntity.ok(updatedHastane);
+    }
+    @PostMapping("create/{addressid}/{neighborhoodid}/{districtid}")
+    public void createHospital(@RequestBody Hastane hastane,@PathVariable int addressid,@PathVariable int neighborhoodid,@PathVariable int districtid) {
+        
+        Adres adres=adresRepository.getById(addressid);
+        Neighborhood neighborhood=neighborhoodRepository.getById(neighborhoodid);
+        District district=districtRepository.getById(districtid);
+        neighborhood.setDistrictid(district);
+        adres.setNeighborhoodid(neighborhood);
+        hastane.setAddressid(adres);
         hastaneRepository.save(hastane);
-       
         System.out.print("------------------"+hastane);
   
     }
